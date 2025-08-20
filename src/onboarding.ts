@@ -219,14 +219,6 @@ export class SpotlightOnboarding {
     const opacity = globalSpotlight.backdropOpacity / 100
     backdrop.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`
 
-    console.log('Spotlight debug:', {
-      stepSpotlight,
-      globalSpotlight,
-      finalBorderRadius: borderRadius,
-      finalPadding: padding,
-      globalBackdropOpacity: globalSpotlight.backdropOpacity
-    })
-
     // Calculate coordinates with padding
     const x1 = Math.max(0, rect.left - padding)
     const y1 = Math.max(0, rect.top - padding)
@@ -265,8 +257,6 @@ export class SpotlightOnboarding {
 
     // Limit border radius to not exceed half of the smaller dimension
     const maxRadius = Math.min(width / 2, height / 2, borderRadius)
-
-    console.log('Creating rounded spotlight:', { x1, y1, x2, y2, width, height, borderRadius, maxRadius })
 
     // Clear any existing clip-path
     backdrop.style.clipPath = 'none'

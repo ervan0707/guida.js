@@ -341,6 +341,16 @@ const onboarding = new SpotlightOnboarding({
 })
 ```
 
+## Build Output
+
+This library is built to support multiple module systems:
+
+- **`dist/index.js`** - UMD bundle for browser `<script>` tags and CommonJS environments
+- **`dist/index.esm.js`** - ES Module bundle for modern bundlers (Webpack, Vite, Rollup) and `import` statements
+- **`dist/index.d.ts`** - TypeScript definitions
+
+The ESM build allows for better tree-shaking and is preferred by modern development tools. Most bundlers will automatically choose the appropriate format based on your `package.json` configuration.
+
 ## Development
 
 ```bash
@@ -366,6 +376,24 @@ The `npm run dev` command will:
 - Build the library in watch mode (automatically rebuilds on changes)
 - Start the example server with hot reload
 - Both processes run in parallel for seamless development
+
+### Testing
+
+```bash
+# Run tests in watch mode (recommended during development)
+npm test
+
+# Run tests once and exit
+npm run test:run
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Open Vitest UI for interactive testing
+npm run test:ui
+```
+
+The test suite includes unit tests, integration tests, and achieves high code coverage (90%+).
 
 ## Contributing
 
