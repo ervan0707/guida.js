@@ -14,7 +14,7 @@ const onboardingSteps = [
     skipable: false,
     spotlight: {
       borderRadius: 16,
-      padding: 12,
+      padding: 0,
     },
   },
   {

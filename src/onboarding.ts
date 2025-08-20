@@ -2,10 +2,20 @@ import { OnboardingConfig, OnboardingStep, OnboardingState, OnboardingEvents } f
 import { DEFAULT_STYLES } from './styles'
 
 /**
+ * Internal configuration with all required properties
+ */
+type MergedOnboardingConfig = Required<Omit<OnboardingConfig, 'spotlight'>> & {
+  spotlight: {
+    borderRadius: number
+    padding: number
+  }
+}
+
+/**
  * Modern onboarding library with spotlight highlighting
  */
 export class SpotlightOnboarding {
-  private config: Required<OnboardingConfig>
+  private config: MergedOnboardingConfig
   private state: OnboardingState
   private eventListeners: Map<keyof OnboardingEvents, Function[]> = new Map()
 
@@ -28,16 +38,15 @@ export class SpotlightOnboarding {
   /**
    * Merge user config with defaults
    */
-  private mergeConfig(config: OnboardingConfig): Required<OnboardingConfig> {
+  private mergeConfig(config: OnboardingConfig): MergedOnboardingConfig {
     return {
       steps: config.steps,
       storageKey: config.storageKey || 'guida-js-completed',
       autoStart: config.autoStart ?? true,
       startDelay: config.startDelay ?? 1000,
       spotlight: {
-        borderRadius: 8,
-        padding: 8,
-        ...config.spotlight
+        borderRadius: config.spotlight?.borderRadius ?? 8,
+        padding: config.spotlight?.padding ?? 8
       },
       customClasses: {
         overlay: '',
@@ -184,17 +193,25 @@ export class SpotlightOnboarding {
       // Reset clip-path when no highlight
       backdrop.style.clipPath = 'none'
     }
-  }
-
-  /**
+  }  /**
    * Update the clip-path for the backdrop to create spotlight effect with border radius
    */
   private updateClipPath(element: HTMLElement, backdrop: HTMLElement, step?: OnboardingStep): void {
     const rect = element.getBoundingClientRect()
 
-    // Get spotlight options from step or global config
-    const borderRadius = step?.spotlight?.borderRadius ?? this.config.spotlight.borderRadius ?? 8
-    const padding = step?.spotlight?.padding ?? this.config.spotlight.padding ?? 8
+    // Get spotlight options from step or global config with explicit defaults
+    const stepSpotlight = step?.spotlight
+    const globalSpotlight = this.config.spotlight
+
+    const borderRadius = stepSpotlight?.borderRadius ?? globalSpotlight.borderRadius
+    const padding = stepSpotlight?.padding ?? globalSpotlight.padding
+
+    console.log('Spotlight debug:', {
+      stepSpotlight,
+      globalSpotlight,
+      finalBorderRadius: borderRadius,
+      finalPadding: padding
+    })
 
     // Calculate coordinates with padding
     const x1 = Math.max(0, rect.left - padding)
@@ -203,9 +220,14 @@ export class SpotlightOnboarding {
     const y2 = Math.min(window.innerHeight, rect.bottom + padding)
 
     if (borderRadius > 0) {
-      // Create rounded rectangle using polygon approximation
+      // Create rounded rectangle using SVG mask
       this.createRoundedSpotlight(backdrop, x1, y1, x2, y2, borderRadius)
     } else {
+      // Clear any SVG content and restore original backdrop
+      backdrop.innerHTML = ''
+      backdrop.style.background = 'rgba(0, 0, 0, 0.7)'
+      backdrop.style.backdropFilter = 'blur(2px)'
+
       // Use simple polygon for sharp corners
       const clipPath = `polygon(
         0% 0%, 
@@ -221,10 +243,8 @@ export class SpotlightOnboarding {
       )`
       backdrop.style.clipPath = clipPath
     }
-  }
-
-  /**
-   * Create a rounded spotlight effect using CSS clip-path with polygon approximation
+  }  /**
+   * Create a rounded spotlight effect using SVG mask for proper rounded corners
    */
   private createRoundedSpotlight(backdrop: HTMLElement, x1: number, y1: number, x2: number, y2: number, borderRadius: number): void {
     const width = x2 - x1
@@ -233,61 +253,59 @@ export class SpotlightOnboarding {
     // Limit border radius to not exceed half of the smaller dimension
     const maxRadius = Math.min(width / 2, height / 2, borderRadius)
 
-    // Create a polygon that approximates rounded corners
-    const points = this.generateRoundedRectanglePoints(x1, y1, x2, y2, maxRadius)
-    const clipPath = `polygon(${points.join(', ')})`
+    console.log('Creating rounded spotlight:', { x1, y1, x2, y2, width, height, borderRadius, maxRadius })
 
-    backdrop.style.clipPath = clipPath
-  }
+    // Clear any existing clip-path
+    backdrop.style.clipPath = 'none'
 
-  /**
-   * Generate points for a polygon that approximates a rounded rectangle
-   */
-  private generateRoundedRectanglePoints(x1: number, y1: number, x2: number, y2: number, radius: number): string[] {
-    const points: string[] = []
+    // Create SVG with rounded rectangle cutout
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    svg.style.position = 'absolute'
+    svg.style.top = '0'
+    svg.style.left = '0'
+    svg.style.width = '100%'
+    svg.style.height = '100%'
+    svg.style.pointerEvents = 'none'
 
-    // Number of points to approximate each corner (more points = smoother curve)
-    const cornerPoints = 8
+    const cutoutId = 'spotlight-cutout-' + Date.now()
 
-    // Create the outer rectangle first (covering the entire viewport)
-    points.push('0% 0%', '0% 100%', `${x1}px 100%`)
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs')
+    const mask = document.createElementNS('http://www.w3.org/2000/svg', 'mask')
+    mask.id = cutoutId
 
-    // Bottom-left corner of cutout
-    for (let i = 0; i <= cornerPoints; i++) {
-      const angle = (Math.PI / 2) * (i / cornerPoints) // 0 to π/2
-      const x = x1 + radius - radius * Math.cos(angle)
-      const y = y2 - radius + radius * Math.sin(angle)
-      points.push(`${x}px ${y}px`)
-    }
+    // White background (visible area)
+    const background = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+    background.setAttribute('width', '100%')
+    background.setAttribute('height', '100%')
+    background.setAttribute('fill', 'white')
 
-    // Bottom-right corner of cutout
-    for (let i = 0; i <= cornerPoints; i++) {
-      const angle = (Math.PI / 2) * (i / cornerPoints) // 0 to π/2
-      const x = x2 - radius + radius * Math.sin(angle)
-      const y = y2 - radius + radius * Math.cos(angle)
-      points.push(`${x}px ${y}px`)
-    }
+    // Black rounded rectangle (cutout area)
+    const cutout = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+    cutout.setAttribute('x', x1.toString())
+    cutout.setAttribute('y', y1.toString())
+    cutout.setAttribute('width', width.toString())
+    cutout.setAttribute('height', height.toString())
+    cutout.setAttribute('rx', maxRadius.toString())
+    cutout.setAttribute('ry', maxRadius.toString())
+    cutout.setAttribute('fill', 'black')
 
-    // Top-right corner of cutout
-    for (let i = 0; i <= cornerPoints; i++) {
-      const angle = (Math.PI / 2) * (i / cornerPoints) // 0 to π/2
-      const x = x2 - radius + radius * Math.cos(angle)
-      const y = y1 + radius - radius * Math.sin(angle)
-      points.push(`${x}px ${y}px`)
-    }
+    mask.appendChild(background)
+    mask.appendChild(cutout)
+    defs.appendChild(mask)
+    svg.appendChild(defs)
 
-    // Top-left corner of cutout
-    for (let i = 0; i <= cornerPoints; i++) {
-      const angle = (Math.PI / 2) * (i / cornerPoints) // 0 to π/2
-      const x = x1 + radius - radius * Math.sin(angle)
-      const y = y1 + radius - radius * Math.cos(angle)
-      points.push(`${x}px ${y}px`)
-    }
+    // Apply the mask to create the backdrop effect
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+    rect.setAttribute('width', '100%')
+    rect.setAttribute('height', '100%')
+    rect.setAttribute('fill', 'rgba(0, 0, 0, 0.7)')
+    rect.setAttribute('mask', `url(#${cutoutId})`)
 
-    // Complete the outer rectangle
-    points.push(`${x1}px 100%`, '100% 100%', '100% 0%')
+    svg.appendChild(rect)
 
-    return points
+    // Clear backdrop and add SVG
+    backdrop.innerHTML = ''
+    backdrop.appendChild(svg)
   }
 
   /**
