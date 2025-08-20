@@ -8,6 +8,7 @@ type MergedOnboardingConfig = Required<Omit<OnboardingConfig, 'spotlight'>> & {
   spotlight: {
     borderRadius: number
     padding: number
+    backdropOpacity: number
   }
 }
 
@@ -46,7 +47,8 @@ export class SpotlightOnboarding {
       startDelay: config.startDelay ?? 1000,
       spotlight: {
         borderRadius: config.spotlight?.borderRadius ?? 8,
-        padding: config.spotlight?.padding ?? 8
+        padding: config.spotlight?.padding ?? 8,
+        backdropOpacity: config.spotlight?.backdropOpacity ?? 50
       },
       customClasses: {
         overlay: '',
@@ -120,6 +122,13 @@ export class SpotlightOnboarding {
     this.state.overlay.innerHTML = `
       <div class="guida-backdrop ${this.config.customClasses.backdrop}"></div>
     `
+
+    // Apply custom backdrop opacity
+    const backdrop = this.state.overlay.querySelector('.guida-backdrop') as HTMLElement
+    if (backdrop) {
+      const opacity = this.config.spotlight.backdropOpacity / 100
+      backdrop.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`
+    }
 
     // Create tooltip
     this.state.tooltip = document.createElement('div')
@@ -206,11 +215,16 @@ export class SpotlightOnboarding {
     const borderRadius = stepSpotlight?.borderRadius ?? globalSpotlight.borderRadius
     const padding = stepSpotlight?.padding ?? globalSpotlight.padding
 
+    // Backdrop opacity is always global (no per-step override)
+    const opacity = globalSpotlight.backdropOpacity / 100
+    backdrop.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`
+
     console.log('Spotlight debug:', {
       stepSpotlight,
       globalSpotlight,
       finalBorderRadius: borderRadius,
-      finalPadding: padding
+      finalPadding: padding,
+      globalBackdropOpacity: globalSpotlight.backdropOpacity
     })
 
     // Calculate coordinates with padding
@@ -225,7 +239,6 @@ export class SpotlightOnboarding {
     } else {
       // Clear any SVG content and restore original backdrop
       backdrop.innerHTML = ''
-      backdrop.style.background = 'rgba(0, 0, 0, 0.7)'
       backdrop.style.backdropFilter = 'blur(2px)'
 
       // Use simple polygon for sharp corners

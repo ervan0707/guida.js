@@ -53,6 +53,8 @@ export interface OnboardingConfig {
     borderRadius?: number
     /** Default padding around highlighted elements (in pixels) */
     padding?: number
+    /** Default backdrop opacity as a percentage (0-100) */
+    backdropOpacity?: number
   }
   /** Custom CSS classes to apply */
   customClasses?: {

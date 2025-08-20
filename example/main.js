@@ -101,6 +101,7 @@ const onboarding = new SpotlightOnboarding({
   spotlight: {
     borderRadius: 12, // Default border radius for all steps
     padding: 10, // Default padding for all steps
+    backdropOpacity: 50, // Default backdrop opacity (50%)
   },
   callbacks: {
     onStart: () => {

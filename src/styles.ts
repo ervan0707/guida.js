@@ -16,7 +16,7 @@ export const DEFAULT_STYLES = `
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
   transition: clip-path 0.3s ease-in-out;
 }

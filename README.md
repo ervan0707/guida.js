@@ -1,6 +1,6 @@
 # Guida.js
 
-A modern, lightweight onboarding library with spotlight highlighting and smooth animations. Perfect for guiding users through your application with style.
+A modern, lightweight onbing library with spotlight highlighting and smooth animations. Perfect for guiding users through your application with style.
 
 ## Features
 
@@ -58,6 +58,7 @@ const onboarding = new SpotlightOnboarding({
   spotlight: {
     borderRadius: 8,
     padding: 8,
+    backdropOpacity: 50,
   },
 });
 
@@ -79,6 +80,7 @@ interface OnboardingConfig {
   spotlight?: {
     borderRadius?: number; // Default: 8px
     padding?: number; // Default: 8px
+    backdropOpacity?: number; // Default: 50 (0-100%)
   };
   customClasses?: {
     overlay?: string;
@@ -150,16 +152,17 @@ const onboarding = new SpotlightOnboarding({
   steps: [...],
   spotlight: {
     borderRadius: 16, // Rounded corners for all spotlights
-    padding: 12       // Extra space around highlighted elements
+    padding: 12,      // Extra space around highlighted elements
+    backdropOpacity: 60 // 60% dark backdrop (applies to all steps)
   }
 });
 
-// Per-step spotlight customization
+// Per-step spotlight customization (border radius and padding only)
 const steps = [
   {
     target: "#rounded-card",
     title: "Rounded Card",
-    description: "This card gets a rounded spotlight effect.",
+    description: "This card gets a custom rounded spotlight.",
     position: "bottom",
     action: "observe",
     highlight: true,
@@ -172,14 +175,14 @@ const steps = [
   {
     target: "#sharp-button",
     title: "Sharp Button",
-    description: "This button gets a sharp, rectangular spotlight.",
+    description: "This button gets a sharp spotlight.",
     position: "top",
     action: "click",
     highlight: true,
     skipable: true,
     spotlight: {
-      borderRadius: 0,  // Sharp corners
-      padding: 8        // Minimal padding
+      borderRadius: 0, // Sharp corners
+      padding: 8       // Minimal padding
     }
   }
 ];
@@ -189,14 +192,16 @@ const steps = [
 
 - `borderRadius`: Corner radius in pixels (0 for sharp corners, higher values for more rounded)
 - `padding`: Extra space around the highlighted element in pixels
+- `backdropOpacity`: Background darkness as a percentage (0-100, global setting only)
 
 **Visual Examples:**
 
 ```typescript
-// Pill-shaped spotlight for buttons
+// Light, pill-shaped spotlight
 spotlight: { borderRadius: 50, padding: 6 }
+// Note: backdropOpacity is set globally
 
-// Card-like rounded spotlight
+// Standard card-like spotlight
 spotlight: { borderRadius: 12, padding: 16 }
 
 // Sharp, minimal spotlight
