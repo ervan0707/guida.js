@@ -1,6 +1,6 @@
 # Guida.js
 
-A modern, lightweight onbing library with spotlight highlighting and smooth animations. Perfect for guiding users through your application with style.
+A modern, lightweight onboarding library with spotlight highlighting and smooth animations. Perfect for guiding users through your application with style.
 
 ## Features
 
