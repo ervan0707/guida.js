@@ -2,6 +2,8 @@
 
 A modern, lightweight onboarding library with spotlight highlighting and smooth animations. Perfect for guiding users through your application with style.
 
+![Guida.js Demo](./screenshoots/Screenshot.png)
+
 ## Features
 
 - **Spotlight Highlighting** - Elegantly highlight elements with a smooth clip-path effect
