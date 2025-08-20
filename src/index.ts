@@ -11,8 +11,7 @@ export type {
 import { SpotlightOnboarding } from './onboarding'
 import type { OnboardingConfig, OnboardingStep } from './types'
 
-// Default export for convenience
-export { SpotlightOnboarding as default } from './onboarding'
+// No default export - using named exports only for consistency
 
 /**
  * Create a new SpotlightOnboarding instance with the given configuration

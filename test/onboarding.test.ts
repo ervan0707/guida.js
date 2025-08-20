@@ -250,7 +250,7 @@ describe('Navigation', () => {
     onboarding.start()
     onboarding.goToStep(1) // Last step (index 1)
     expect(onboarding.getCurrentStep().index).toBe(1)
-    
+
     onboarding.nextStep()
 
     // Wait for the timeout in nextStep to process

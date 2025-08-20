@@ -13,15 +13,18 @@
     "dev": "npm-run-all --parallel dev:lib dev:example",
     "dev:lib": "vite build --watch",
     "dev:example": "cd example && npm run dev",
-    "build": "tsc && vite build",
+    "build": "npm run clean && npm run typecheck && vite build --mode production",
+    "build:dev": "vite build --mode development",
     "build:watch": "vite build --watch",
+    "clean": "rm -rf dist",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "example": "cd example && npm run dev",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "onboarding",

@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
 
-export default defineConfig({
+export default defineConfig(({ mode, command }) => ({
   plugins: [
     dts({
       include: ['src/**/*'],
@@ -19,17 +19,15 @@ export default defineConfig({
     rollupOptions: {
       external: [],
       output: {
-        globals: {}
+        globals: {},
+        exports: 'named' // Use named exports only
       }
     },
-    sourcemap: true,
-    minify: false, // Disable minification in watch mode for faster builds
-    watch: {
-      // Watch for changes in src directory
-      include: 'src/**'
-    }
+    sourcemap: mode === 'development', // Only generate source maps in development
+    minify: mode === 'production' ? 'terser' : false,
+    target: 'es2018'
   },
   server: {
     open: '/example'
   }
-})
+}))
