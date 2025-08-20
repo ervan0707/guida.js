@@ -26,6 +26,13 @@ export interface OnboardingStep {
   highlight: boolean
   /** Whether this step can be skipped */
   skipable: boolean
+  /** Custom spotlight options for this step */
+  spotlight?: {
+    /** Border radius for the spotlight cutout (in pixels) */
+    borderRadius?: number
+    /** Extra padding around the highlighted element (in pixels) */
+    padding?: number
+  }
 }
 
 /**
@@ -40,6 +47,13 @@ export interface OnboardingConfig {
   autoStart?: boolean
   /** Delay before starting onboarding (in milliseconds) */
   startDelay?: number
+  /** Global spotlight configuration */
+  spotlight?: {
+    /** Default border radius for spotlight cutouts (in pixels) */
+    borderRadius?: number
+    /** Default padding around highlighted elements (in pixels) */
+    padding?: number
+  }
   /** Custom CSS classes to apply */
   customClasses?: {
     overlay?: string
@@ -77,5 +91,6 @@ export interface OnboardingState {
   overlay: HTMLElement | null
   tooltip: HTMLElement | null
   currentHighlightedElement: HTMLElement | null
+  currentStepConfig: OnboardingStep | null
   resizeHandler: (() => void) | null
 }

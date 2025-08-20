@@ -18,6 +18,7 @@ export class SpotlightOnboarding {
       overlay: null,
       tooltip: null,
       currentHighlightedElement: null,
+      currentStepConfig: null,
       resizeHandler: null
     }
 
@@ -33,6 +34,11 @@ export class SpotlightOnboarding {
       storageKey: config.storageKey || 'guida-js-completed',
       autoStart: config.autoStart ?? true,
       startDelay: config.startDelay ?? 1000,
+      spotlight: {
+        borderRadius: 8,
+        padding: 8,
+        ...config.spotlight
+      },
       customClasses: {
         overlay: '',
         backdrop: '',
@@ -124,6 +130,7 @@ export class SpotlightOnboarding {
     }
 
     const step = this.config.steps[stepIndex]
+    this.state.currentStepConfig = step
     const target = document.querySelector(step.target) as HTMLElement
 
     if (!target) {
@@ -137,7 +144,7 @@ export class SpotlightOnboarding {
     this.config.callbacks.onStepChange?.(stepIndex, step)
 
     // Highlight target element
-    this.highlightElement(target, step.highlight)
+    this.highlightElement(target, step.highlight, step)
 
     // Position and show tooltip
     this.showTooltip(target, step)
@@ -147,7 +154,7 @@ export class SpotlightOnboarding {
   }  /**
    * Highlight an element with spotlight effect
    */
-  private highlightElement(element: HTMLElement, shouldHighlight: boolean): void {
+  private highlightElement(element: HTMLElement, shouldHighlight: boolean, step?: OnboardingStep): void {
     // Remove previous highlights
     document.querySelectorAll('.guida-highlight').forEach((el) => {
       el.classList.remove('guida-highlight')
@@ -165,7 +172,7 @@ export class SpotlightOnboarding {
         element.classList.add(this.config.customClasses.highlight)
       }
 
-      this.updateClipPath(element, backdrop)
+      this.updateClipPath(element, backdrop, step)
 
       // Scroll element into view
       element.scrollIntoView({
@@ -180,33 +187,107 @@ export class SpotlightOnboarding {
   }
 
   /**
-   * Update the clip-path for the backdrop to create spotlight effect
+   * Update the clip-path for the backdrop to create spotlight effect with border radius
    */
-  private updateClipPath(element: HTMLElement, backdrop: HTMLElement): void {
+  private updateClipPath(element: HTMLElement, backdrop: HTMLElement, step?: OnboardingStep): void {
     const rect = element.getBoundingClientRect()
-    const padding = 8 // Extra space around highlighted element
 
-    // Calculate clip-path coordinates
+    // Get spotlight options from step or global config
+    const borderRadius = step?.spotlight?.borderRadius ?? this.config.spotlight.borderRadius ?? 8
+    const padding = step?.spotlight?.padding ?? this.config.spotlight.padding ?? 8
+
+    // Calculate coordinates with padding
     const x1 = Math.max(0, rect.left - padding)
     const y1 = Math.max(0, rect.top - padding)
     const x2 = Math.min(window.innerWidth, rect.right + padding)
     const y2 = Math.min(window.innerHeight, rect.bottom + padding)
 
-    // Create clip-path that excludes the highlighted area
-    const clipPath = `polygon(
-      0% 0%, 
-      0% 100%, 
-      ${x1}px 100%, 
-      ${x1}px ${y1}px, 
-      ${x2}px ${y1}px, 
-      ${x2}px ${y2}px, 
-      ${x1}px ${y2}px, 
-      ${x1}px 100%, 
-      100% 100%, 
-      100% 0%
-    )`
+    if (borderRadius > 0) {
+      // Create rounded rectangle using polygon approximation
+      this.createRoundedSpotlight(backdrop, x1, y1, x2, y2, borderRadius)
+    } else {
+      // Use simple polygon for sharp corners
+      const clipPath = `polygon(
+        0% 0%, 
+        0% 100%, 
+        ${x1}px 100%, 
+        ${x1}px ${y1}px, 
+        ${x2}px ${y1}px, 
+        ${x2}px ${y2}px, 
+        ${x1}px ${y2}px, 
+        ${x1}px 100%, 
+        100% 100%, 
+        100% 0%
+      )`
+      backdrop.style.clipPath = clipPath
+    }
+  }
+
+  /**
+   * Create a rounded spotlight effect using CSS clip-path with polygon approximation
+   */
+  private createRoundedSpotlight(backdrop: HTMLElement, x1: number, y1: number, x2: number, y2: number, borderRadius: number): void {
+    const width = x2 - x1
+    const height = y2 - y1
+
+    // Limit border radius to not exceed half of the smaller dimension
+    const maxRadius = Math.min(width / 2, height / 2, borderRadius)
+
+    // Create a polygon that approximates rounded corners
+    const points = this.generateRoundedRectanglePoints(x1, y1, x2, y2, maxRadius)
+    const clipPath = `polygon(${points.join(', ')})`
 
     backdrop.style.clipPath = clipPath
+  }
+
+  /**
+   * Generate points for a polygon that approximates a rounded rectangle
+   */
+  private generateRoundedRectanglePoints(x1: number, y1: number, x2: number, y2: number, radius: number): string[] {
+    const points: string[] = []
+
+    // Number of points to approximate each corner (more points = smoother curve)
+    const cornerPoints = 8
+
+    // Create the outer rectangle first (covering the entire viewport)
+    points.push('0% 0%', '0% 100%', `${x1}px 100%`)
+
+    // Bottom-left corner of cutout
+    for (let i = 0; i <= cornerPoints; i++) {
+      const angle = (Math.PI / 2) * (i / cornerPoints) // 0 to π/2
+      const x = x1 + radius - radius * Math.cos(angle)
+      const y = y2 - radius + radius * Math.sin(angle)
+      points.push(`${x}px ${y}px`)
+    }
+
+    // Bottom-right corner of cutout
+    for (let i = 0; i <= cornerPoints; i++) {
+      const angle = (Math.PI / 2) * (i / cornerPoints) // 0 to π/2
+      const x = x2 - radius + radius * Math.sin(angle)
+      const y = y2 - radius + radius * Math.cos(angle)
+      points.push(`${x}px ${y}px`)
+    }
+
+    // Top-right corner of cutout
+    for (let i = 0; i <= cornerPoints; i++) {
+      const angle = (Math.PI / 2) * (i / cornerPoints) // 0 to π/2
+      const x = x2 - radius + radius * Math.cos(angle)
+      const y = y1 + radius - radius * Math.sin(angle)
+      points.push(`${x}px ${y}px`)
+    }
+
+    // Top-left corner of cutout
+    for (let i = 0; i <= cornerPoints; i++) {
+      const angle = (Math.PI / 2) * (i / cornerPoints) // 0 to π/2
+      const x = x1 + radius - radius * Math.sin(angle)
+      const y = y1 + radius - radius * Math.cos(angle)
+      points.push(`${x}px ${y}px`)
+    }
+
+    // Complete the outer rectangle
+    points.push(`${x1}px 100%`, '100% 100%', '100% 0%')
+
+    return points
   }
 
   /**
@@ -214,10 +295,10 @@ export class SpotlightOnboarding {
    */
   private setupResizeHandler(): void {
     this.state.resizeHandler = () => {
-      if (this.state.currentHighlightedElement && this.state.overlay) {
+      if (this.state.currentHighlightedElement && this.state.overlay && this.state.currentStepConfig) {
         const backdrop = this.state.overlay.querySelector('.guida-backdrop') as HTMLElement
         if (backdrop) {
-          this.updateClipPath(this.state.currentHighlightedElement, backdrop)
+          this.updateClipPath(this.state.currentHighlightedElement, backdrop, this.state.currentStepConfig)
         }
       }
     }
@@ -448,6 +529,7 @@ export class SpotlightOnboarding {
     }
 
     this.state.currentHighlightedElement = null
+    this.state.currentStepConfig = null
   }
 
   /**

@@ -5,6 +5,7 @@ A modern, lightweight onboarding library with spotlight highlighting and smooth 
 ## Features
 
 - **Spotlight Highlighting** - Elegantly highlight elements with a smooth clip-path effect
+- **Customizable Border Radius** - Create rounded spotlight effects with configurable corner radius
 - **Responsive Design** - Works perfectly on desktop, tablet, and mobile devices
 - **Beautiful Animations** - Smooth transitions and hover effects
 - **Dark Mode Support** - Automatically adapts to user's theme preference
@@ -34,6 +35,10 @@ const onboarding = new SpotlightOnboarding({
       action: "click",
       highlight: true,
       skipable: false,
+      spotlight: {
+        borderRadius: 12,
+        padding: 8,
+      },
     },
     {
       target: "#settings-panel",
@@ -43,8 +48,17 @@ const onboarding = new SpotlightOnboarding({
       action: "observe",
       highlight: true,
       skipable: true,
+      spotlight: {
+        borderRadius: 16,
+        padding: 12,
+      },
     },
   ],
+  // Global spotlight defaults
+  spotlight: {
+    borderRadius: 8,
+    padding: 8,
+  },
 });
 
 // The onboarding will start automatically for new users
@@ -62,6 +76,10 @@ interface OnboardingConfig {
   storageKey?: string; // Default: 'guida-js-completed'
   autoStart?: boolean; // Default: true
   startDelay?: number; // Default: 1000ms
+  spotlight?: {
+    borderRadius?: number; // Default: 8px
+    padding?: number; // Default: 8px
+  };
   customClasses?: {
     overlay?: string;
     backdrop?: string;
@@ -88,6 +106,10 @@ interface OnboardingStep {
   action: "click" | "observe";
   highlight: boolean;
   skipable: boolean;
+  spotlight?: {
+    borderRadius?: number; // Custom border radius for this step
+    padding?: number; // Custom padding for this step
+  };
 }
 ```
 
@@ -117,6 +139,72 @@ onboarding.on("stepChange", callback);
 ```
 
 ## Customization
+
+### Spotlight Effects
+
+Customize the spotlight highlighting with border radius and padding options:
+
+```typescript
+// Global spotlight configuration
+const onboarding = new SpotlightOnboarding({
+  steps: [...],
+  spotlight: {
+    borderRadius: 16, // Rounded corners for all spotlights
+    padding: 12       // Extra space around highlighted elements
+  }
+});
+
+// Per-step spotlight customization
+const steps = [
+  {
+    target: "#rounded-card",
+    title: "Rounded Card",
+    description: "This card gets a rounded spotlight effect.",
+    position: "bottom",
+    action: "observe",
+    highlight: true,
+    skipable: false,
+    spotlight: {
+      borderRadius: 20, // Overrides global setting
+      padding: 16       // Overrides global setting
+    }
+  },
+  {
+    target: "#sharp-button",
+    title: "Sharp Button",
+    description: "This button gets a sharp, rectangular spotlight.",
+    position: "top",
+    action: "click",
+    highlight: true,
+    skipable: true,
+    spotlight: {
+      borderRadius: 0,  // Sharp corners
+      padding: 8        // Minimal padding
+    }
+  }
+];
+```
+
+**Spotlight Options:**
+
+- `borderRadius`: Corner radius in pixels (0 for sharp corners, higher values for more rounded)
+- `padding`: Extra space around the highlighted element in pixels
+
+**Visual Examples:**
+
+```typescript
+// Pill-shaped spotlight for buttons
+spotlight: { borderRadius: 50, padding: 6 }
+
+// Card-like rounded spotlight
+spotlight: { borderRadius: 12, padding: 16 }
+
+// Sharp, minimal spotlight
+spotlight: { borderRadius: 0, padding: 4 }
+
+// Highly rounded, spacious spotlight
+spotlight: { borderRadius: 24, padding: 20 }
+```
 
 ### Custom Styling
 

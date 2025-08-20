@@ -85,6 +85,39 @@ describe('Types', () => {
         expect(step.action).toBe(action)
       })
     })
+
+    it('should support spotlight configuration', () => {
+      const step: OnboardingStep = {
+        target: '#test',
+        title: 'Test',
+        description: 'Test description',
+        position: 'bottom',
+        action: 'observe',
+        highlight: true,
+        skipable: false,
+        spotlight: {
+          borderRadius: 12,
+          padding: 16
+        }
+      }
+
+      expect(step.spotlight?.borderRadius).toBe(12)
+      expect(step.spotlight?.padding).toBe(16)
+    })
+
+    it('should work without spotlight configuration', () => {
+      const step: OnboardingStep = {
+        target: '#test',
+        title: 'Test',
+        description: 'Test description',
+        position: 'bottom',
+        action: 'observe',
+        highlight: true,
+        skipable: false
+      }
+
+      expect(step.spotlight).toBeUndefined()
+    })
   })
 
   describe('OnboardingConfig', () => {
@@ -111,6 +144,10 @@ describe('Types', () => {
         storageKey: 'custom-key',
         autoStart: false,
         startDelay: 2000,
+        spotlight: {
+          borderRadius: 10,
+          padding: 12
+        },
         customClasses: {
           overlay: 'custom-overlay',
           backdrop: 'custom-backdrop',
@@ -128,8 +165,26 @@ describe('Types', () => {
       expect(config.storageKey).toBe('custom-key')
       expect(config.autoStart).toBe(false)
       expect(config.startDelay).toBe(2000)
+      expect(config.spotlight?.borderRadius).toBe(10)
+      expect(config.spotlight?.padding).toBe(12)
       expect(config.customClasses?.overlay).toBe('custom-overlay')
       expect(config.callbacks?.onStart).toBeDefined()
+    })
+
+    it('should work without spotlight configuration', () => {
+      const config: OnboardingConfig = {
+        steps: [{
+          target: '#test',
+          title: 'Test',
+          description: 'Test description',
+          position: 'bottom',
+          action: 'observe',
+          highlight: true,
+          skipable: false
+        }]
+      }
+
+      expect(config.spotlight).toBeUndefined()
     })
   })
 
@@ -142,6 +197,7 @@ describe('Types', () => {
         overlay: null,
         tooltip: null,
         currentHighlightedElement: null,
+        currentStepConfig: null,
         resizeHandler: null
       }
 
@@ -151,12 +207,22 @@ describe('Types', () => {
       expect(state.overlay).toBe(null)
       expect(state.tooltip).toBe(null)
       expect(state.currentHighlightedElement).toBe(null)
+      expect(state.currentStepConfig).toBe(null)
       expect(state.resizeHandler).toBe(null)
     })
 
     it('should support DOM elements', () => {
       const element = document.createElement('div')
       const handler = () => { }
+      const stepConfig = {
+        target: '#test',
+        title: 'Test',
+        description: 'Test description',
+        position: 'bottom' as const,
+        action: 'observe' as const,
+        highlight: true,
+        skipable: false
+      }
 
       const state: OnboardingState = {
         currentStep: 1,
@@ -165,12 +231,14 @@ describe('Types', () => {
         overlay: element,
         tooltip: element,
         currentHighlightedElement: element,
+        currentStepConfig: stepConfig,
         resizeHandler: handler
       }
 
       expect(state.overlay).toBe(element)
       expect(state.tooltip).toBe(element)
       expect(state.currentHighlightedElement).toBe(element)
+      expect(state.currentStepConfig).toBe(stepConfig)
       expect(state.resizeHandler).toBe(handler)
     })
   })

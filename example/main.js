@@ -5,27 +5,35 @@ import { SpotlightOnboarding } from "../src/index.ts";
 const onboardingSteps = [
   {
     target: "#welcomeCard",
-    title: "👋 Welcome to the Demo!",
+    title: "Welcome to the Demo!",
     description:
       "This is your first stop. Here you can see the main welcome message and get started with the application.",
     position: "bottom",
     action: "observe",
     highlight: true,
     skipable: false,
+    spotlight: {
+      borderRadius: 16,
+      padding: 12,
+    },
   },
   {
     target: "#startTour",
-    title: "🚀 Start Tour Button",
+    title: "Start Tour Button",
     description:
       "This button starts the onboarding tour. Click it anytime to restart the experience.",
     position: "bottom",
     action: "observe",
     highlight: true,
     skipable: true,
+    spotlight: {
+      borderRadius: 20,
+      padding: 8,
+    },
   },
   {
     target: "#featuresCard",
-    title: "✨ Key Features",
+    title: "Key Features",
     description:
       "This card highlights the main features of the application. Users can quickly see what makes your app special.",
     position: "left",
@@ -90,6 +98,10 @@ const onboarding = new SpotlightOnboarding({
   steps: onboardingSteps,
   autoStart: false, // We'll start it manually
   startDelay: 500,
+  spotlight: {
+    borderRadius: 12, // Default border radius for all steps
+    padding: 10, // Default padding for all steps
+  },
   callbacks: {
     onStart: () => {
       console.log("🎯 Onboarding started!");
