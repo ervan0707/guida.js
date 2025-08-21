@@ -30,7 +30,8 @@ export class SpotlightOnboarding {
       tooltip: null,
       currentHighlightedElement: null,
       currentStepConfig: null,
-      resizeHandler: null
+      resizeHandler: null,
+      scrollHandler: null
     }
 
     this.init()
@@ -321,10 +322,30 @@ export class SpotlightOnboarding {
         if (backdrop) {
           this.updateClipPath(this.state.currentHighlightedElement, backdrop, this.state.currentStepConfig)
         }
+        // Also update tooltip position on resize
+        if (this.state.tooltip && this.state.currentStepConfig) {
+          this.showTooltip(this.state.currentHighlightedElement, this.state.currentStepConfig)
+        }
+      }
+    }
+
+    // Handle scroll events to keep spotlight in sync
+    this.state.scrollHandler = () => {
+      if (this.state.currentHighlightedElement && this.state.overlay && this.state.currentStepConfig) {
+        const backdrop = this.state.overlay.querySelector('.guida-backdrop') as HTMLElement
+        if (backdrop) {
+          this.updateClipPath(this.state.currentHighlightedElement, backdrop, this.state.currentStepConfig)
+        }
+        // Also update tooltip position on scroll
+        if (this.state.tooltip && this.state.currentStepConfig) {
+          this.showTooltip(this.state.currentHighlightedElement, this.state.currentStepConfig)
+        }
       }
     }
 
     window.addEventListener('resize', this.state.resizeHandler)
+    window.addEventListener('scroll', this.state.scrollHandler, true) // Use capture to catch all scroll events
+    document.addEventListener('scroll', this.state.scrollHandler, true) // Also listen on document for better coverage
   }
 
   /**
@@ -391,7 +412,7 @@ export class SpotlightOnboarding {
 
     this.state.tooltip.classList.add('guida-visible')
 
-    // Add event listeners to tooltip buttons
+    // event listeners to tooltip buttons
     this.setupTooltipEvents()
   }
 
@@ -536,6 +557,13 @@ export class SpotlightOnboarding {
     if (this.state.resizeHandler) {
       window.removeEventListener('resize', this.state.resizeHandler)
       this.state.resizeHandler = null
+    }
+
+    // Remove scroll handler
+    if (this.state.scrollHandler) {
+      window.removeEventListener('scroll', this.state.scrollHandler, true)
+      document.removeEventListener('scroll', this.state.scrollHandler, true)
+      this.state.scrollHandler = null
     }
 
     // Remove overlay and tooltip

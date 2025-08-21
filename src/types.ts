@@ -95,4 +95,5 @@ export interface OnboardingState {
   currentHighlightedElement: HTMLElement | null
   currentStepConfig: OnboardingStep | null
   resizeHandler: (() => void) | null
+  scrollHandler: (() => void) | null
 }
