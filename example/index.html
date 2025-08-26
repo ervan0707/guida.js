@@ -4,336 +4,203 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guida.js - Example</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: #f5f7fa;
-      min-height: 100vh;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
-      color: #2c3e50;
-    }
-
-    .header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-
-    .header p {
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    .demo-app {
-      background: white;
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
-    }
-
-    .demo-controls {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-
-    .demo-btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .demo-btn.primary {
-      background: #007acc;
-      color: white;
-    }
-
-    .demo-btn.primary:hover {
-      background: #005a99;
-      transform: translateY(-2px);
-    }
-
-    .demo-btn.secondary {
-      background: #f8f9fa;
-      color: #666;
-      border: 1px solid #ddd;
-    }
-
-    .demo-btn.secondary:hover {
-      background: #e9ecef;
-    }
-
-    .demo-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .demo-card {
-      background: #f8f9fa;
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid #e9ecef;
-    }
-
-    .demo-card h3 {
-      margin-bottom: 10px;
-      color: #495057;
-    }
-
-    .demo-card p {
-      color: #6c757d;
-      margin-bottom: 15px;
-    }
-
-    .demo-form {
-      background: #fff;
-      border: 1px solid #e9ecef;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-      color: #495057;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #ced4da;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: #007acc;
-      box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
-    }
-
-    .settings-panel {
-      background: #f8f9fa;
-      border-radius: 8px;
-      padding: 20px;
-      border: 1px solid #e9ecef;
-    }
-
-    .settings-group {
-      margin-bottom: 20px;
-    }
-
-    .settings-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .settings-group h4 {
-      margin-bottom: 10px;
-      color: #495057;
-    }
-
-    .settings-toggle {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .toggle-switch {
-      position: relative;
-      width: 40px;
-      height: 20px;
-      background: #ccc;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .toggle-switch.active {
-      background: #007acc;
-    }
-
-    .toggle-switch::after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 16px;
-      height: 16px;
-      background: white;
-      border-radius: 50%;
-      transition: transform 0.3s;
-    }
-
-    .toggle-switch.active::after {
-      transform: translateX(20px);
-    }
-
-    .footer-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 10px;
-      }
-
-      .header h1 {
-        font-size: 2rem;
-      }
-
-      .demo-app {
-        padding: 20px;
-      }
-
-      .demo-controls {
-        flex-direction: column;
-      }
-
-      .demo-content {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <title>Guida.js - Lightweight JavaScript library for product tours and highlights</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>Guida.js</h1>
-      <p>A modern, lightweight onboarding library with spotlight highlighting</p>
-    </div>
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle theme selector">
+    🎨
+  </button>
 
-    <div class="demo-app">
-      <!-- Demo Controls -->
-      <div class="demo-controls">
-        <button id="startTour" class="demo-btn primary">Start Tour</button>
-        <button id="restartTour" class="demo-btn secondary">Restart Tour</button>
-        <button id="resetProgress" class="demo-btn secondary">Reset Progress</button>
-        <a href="https://github.com/yourusername/guida-js" class="demo-btn secondary" target="_blank">Documentation</a>
+  <!-- Theme Selector Overlay -->
+  <div class="theme-selector" id="themeSelector">
+    <div class="theme-options">
+      <div class="theme-option" data-theme="latte">
+        <div class="theme-preview latte"></div>
+        <span>Latte</span>
       </div>
-
-      <!-- Demo Content -->
-      <div class="demo-content">
-        <div class="demo-card" id="welcomeCard">
-          <h3>Welcome Card</h3>
-          <p>This is where users first land. We'll show them around!</p>
-          <button class="demo-btn primary">Get Started</button>
-        </div>
-
-        <div class="demo-card" id="featuresCard">
-          <h3>Key Features</h3>
-          <p>Highlight important features and capabilities of your app.</p>
-          <ul style="margin-left: 20px; color: #6c757d;">
-            <li>Spotlight highlighting</li>
-            <li>Smooth animations</li>
-            <li>Responsive design</li>
-            <li>TypeScript support</li>
-          </ul>
-        </div>
-
-        <div class="demo-card" id="settingsCard">
-          <h3>Settings Panel</h3>
-          <p>Show users how to customize their experience.</p>
-          <button class="demo-btn secondary">Open Settings</button>
-        </div>
+      <div class="theme-option" data-theme="frappe">
+        <div class="theme-preview frappe"></div>
+        <span>Frappé</span>
       </div>
-
-      <!-- Demo Form -->
-      <div class="demo-form" id="userForm">
-        <h3 style="margin-bottom: 15px;">User Profile</h3>
-        <div class="form-group">
-          <label for="userName">Name</label>
-          <input type="text" id="userName" class="form-control" placeholder="Enter your name">
-        </div>
-        <div class="form-group">
-          <label for="userEmail">Email</label>
-          <input type="email" id="userEmail" class="form-control" placeholder="Enter your email">
-        </div>
-        <div class="form-group">
-          <label for="userRole">Role</label>
-          <select id="userRole" class="form-control">
-            <option value="">Select a role</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-            <option value="guest">Guest</option>
-          </select>
-        </div>
-        <button class="demo-btn primary">Save Profile</button>
+      <div class="theme-option" data-theme="macchiato">
+        <div class="theme-preview macchiato"></div>
+        <span>Macchiato</span>
       </div>
-
-      <!-- Settings Panel -->
-      <div class="settings-panel" id="settingsPanel">
-        <h3 style="margin-bottom: 20px;">Application Settings</h3>
-
-        <div class="settings-group">
-          <h4>Preferences</h4>
-          <div class="settings-toggle">
-            <div class="toggle-switch" id="darkModeToggle"></div>
-            <label>Dark Mode</label>
-          </div>
-          <div class="settings-toggle">
-            <div class="toggle-switch active" id="notificationsToggle"></div>
-            <label>Push Notifications</label>
-          </div>
-          <div class="settings-toggle">
-            <div class="toggle-switch" id="soundToggle"></div>
-            <label>Sound Effects</label>
-          </div>
-        </div>
-
-        <div class="settings-group">
-          <h4>Privacy</h4>
-          <div class="settings-toggle">
-            <div class="toggle-switch active" id="analyticsToggle"></div>
-            <label>Usage Analytics</label>
-          </div>
-          <div class="settings-toggle">
-            <div class="toggle-switch" id="trackingToggle"></div>
-            <label>Performance Tracking</label>
-          </div>
-        </div>
+      <div class="theme-option active" data-theme="mocha">
+        <div class="theme-preview mocha"></div>
+        <span>Mocha</span>
       </div>
-
     </div>
   </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="#" class="logo">guida.js</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#demo">Demo</a></li>
+          <li><a href="https://github.com/yourusername/guida-js">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <h1>guida.js</h1>
+      <p>Lightweight JavaScript library for product tours, highlights, and contextual help to guide users through your
+        product.</p>
+      <div class="hero-actions">
+        <button id="heroStartTour" class="btn btn-primary">Show Demo</button>
+        <a href="https://github.com/yourusername/guida-js" class="btn btn-secondary">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stats-container">
+      <div class="stat">
+        <h3>5KB</h3>
+        <p>Minified + Gzipped</p>
+      </div>
+      <div class="stat">
+        <h3>0</h3>
+        <p>Dependencies</p>
+      </div>
+      <div class="stat">
+        <h3>TypeScript</h3>
+        <p>Built-in Support</p>
+      </div>
+      <div class="stat">
+        <h3>MIT</h3>
+        <p>Licensed</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Why Choose Guida.js?</h2>
+        <p>Built for modern web applications with developer experience and user engagement in mind.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature" id="spotlightFeature">
+          <span class="feature-icon">🎯</span>
+          <h3>Smart Spotlight</h3>
+          <p>Intelligent highlighting that follows elements during scroll and resize, with customizable rounded corners
+            and smooth animations.</p>
+        </div>
+        <div class="feature" id="typescriptFeature">
+          <span class="feature-icon">⚡</span>
+          <h3>TypeScript Ready</h3>
+          <p>Built with TypeScript from the ground up. Enjoy full type safety, excellent IDE support, and better
+            developer experience.</p>
+        </div>
+        <div class="feature" id="responsiveFeature">
+          <span class="feature-icon">📱</span>
+          <h3>Responsive Design</h3>
+          <p>Works perfectly on all devices and screen sizes. Adaptive positioning ensures your tours look great
+            everywhere.</p>
+        </div>
+        <div class="feature" id="customizableFeature">
+          <span class="feature-icon">🎨</span>
+          <h3>Highly Customizable</h3>
+          <p>Custom CSS classes, flexible positioning, and extensive configuration options to match your brand
+            perfectly.</p>
+        </div>
+        <div class="feature" id="lightweightFeature">
+          <span class="feature-icon">🪶</span>
+          <h3>Lightweight</h3>
+          <p>Zero dependencies and optimized bundle size. Fast loading and minimal impact on your application
+            performance.</p>
+        </div>
+        <div class="feature" id="accessibleFeature">
+          <span class="feature-icon">♿</span>
+          <h3>Accessible</h3>
+          <p>Built with accessibility in mind. Keyboard navigation, screen reader support, and WCAG compliance out of
+            the box.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section id="demo" class="demo">
+    <div class="container">
+      <div class="demo-header">
+        <h2>Interactive Demo</h2>
+        <p>Experience Guida.js features with live examples</p>
+      </div>
+
+      <div class="demo-controls">
+        <button id="startTour" class="btn btn-primary">Start Full Tour</button>
+        <button id="quickDemo" class="btn btn-secondary">Quick Demo</button>
+        <button id="restartTour" class="btn btn-secondary">Restart</button>
+      </div>
+
+      <div class="demo-area">
+        <div class="demo-grid">
+          <div class="demo-item" id="welcomeCard">
+            <h4>Welcome Center</h4>
+            <p>This is where new users first discover your application's value proposition and key features.</p>
+          </div>
+          <div class="demo-item" id="featuresCard">
+            <h4>Feature Showcase</h4>
+            <p>Highlight your app's most compelling features and capabilities that users should know about.</p>
+          </div>
+          <div class="demo-item" id="integrationCard">
+            <h4>Easy Integration</h4>
+            <p>Show users how simple it is to get started with your platform and integrate with their workflow.</p>
+          </div>
+        </div>
+
+        <div class="demo-form" id="userForm">
+          <div class="form-group">
+            <label for="userName">Full Name</label>
+            <input type="text" id="userName" class="form-control" placeholder="Enter your full name">
+          </div>
+          <div class="form-group">
+            <label for="userEmail">Email Address</label>
+            <input type="email" id="userEmail" class="form-control" placeholder="your.email@example.com">
+          </div>
+          <div class="form-group">
+            <label for="userRole">Role</label>
+            <select id="userRole" class="form-control">
+              <option value="">Select your role</option>
+              <option value="developer">Developer</option>
+              <option value="designer">Designer</option>
+              <option value="manager">Product Manager</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" style="width: 100%;">Save Profile</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#demo">Demo</a>
+        <a href="https://github.com/yourusername/guida-js" id="helpButton">GitHub</a>
+        <a href="#docs">Documentation</a>
+        <a href="#support">Support</a>
+      </div>
+      <p>MIT Licensed © 2025 · Making onboarding beautiful, one spotlight at a time</p>
+    </div>
+  </footer>
 
   <script type="module" src="/main.js"></script>
 </body>
