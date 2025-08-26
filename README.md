@@ -7,6 +7,8 @@ A modern, lightweight onboarding library with spotlight highlighting and smooth 
 ## Features
 
 - **Spotlight Highlighting** - Elegantly highlight elements with a smooth clip-path effect
+- **Streamlined UI Design** - Clean, single-row button layout with Previous, Next, Skip, and Close controls
+- **Dynamic Positioning** - Accurate vertical centering for left/right positioned tooltips
 - **Customizable Border Radius** - Create rounded spotlight effects with configurable corner radius
 - **Responsive Design** - Works perfectly on desktop, tablet, and mobile devices
 - **Beautiful Animations** - Smooth transitions and hover effects
@@ -143,6 +145,45 @@ onboarding.on("stepChange", callback);
 ```
 
 ## Customization
+
+### Tooltip Design
+
+Guida.js features a clean, minimalist tooltip design with a streamlined button layout:
+
+- **Single-row controls**: All navigation buttons (Previous, Next, Skip, Close) are arranged in a single row at the bottom
+- **Smart button visibility**: Previous button only appears on non-first steps, Next button only appears for observation steps
+- **Compact progress indicator**: Small pill-shaped step counter (e.g., "2 of 5") in the header
+- **Dynamic positioning**: Tooltips automatically measure their content height for perfect vertical centering
+
+```typescript
+// The tooltip automatically adapts its button layout based on step configuration
+const steps = [
+  {
+    target: "#first-element",
+    title: "Welcome",
+    description: "This is the first step.",
+    position: "bottom",
+    action: "observe", // Shows "Next" button
+    skipable: true, // Shows "Skip" button
+    // Result: Shows [Next] [Skip] [Close] buttons
+  },
+  {
+    target: "#interactive-element",
+    title: "Click Here",
+    description: "Click this button to continue.",
+    position: "left",
+    action: "click", // No "Next" button (waits for user click)
+    skipable: false, // No "Skip" button
+    // Result: Shows [Previous] [Close] buttons only
+  },
+];
+```
+
+**Positioning Notes:**
+
+- `left` and `right` positioned tooltips are automatically vertically centered relative to the target element
+- `top` and `bottom` positioned tooltips are horizontally centered
+- All tooltips include arrows pointing to their target elements
 
 ### Spotlight Effects
 

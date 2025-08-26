@@ -356,9 +356,42 @@ export class SpotlightOnboarding {
 
     const rect = target.getBoundingClientRect()
     const tooltipWidth = 320
-    const tooltipHeight = 200
 
-    // Calculate position
+    const isFirstStep = this.state.currentStep === 0
+    const isLastStep = this.state.currentStep === this.config.steps.length - 1
+
+    // Update tooltip content first
+    this.state.tooltip.innerHTML = `
+      <div class="guida-tooltip-content">
+        <div class="guida-header">
+          <h3>${step.title}</h3>
+          <div class="guida-progress">
+            <span>${this.state.currentStep + 1} of ${this.config.steps.length}</span>
+          </div>
+        </div>
+        <p>${step.description}</p>
+        <div class="guida-actions">
+          <div class="guida-controls">
+            ${!isFirstStep ? '<button class="guida-btn guida-btn-secondary guida-prev">← Previous</button>' : ''}
+            ${step.action === 'observe' && !isLastStep ? '<button class="guida-btn guida-next">Next →</button>' : ''}
+            ${step.skipable ? '<button class="guida-btn guida-btn-text guida-skip">Skip</button>' : ''}
+            <button class="guida-btn guida-btn-text guida-close">Close</button>
+          </div>
+        </div>
+      </div>
+      <div class="guida-arrow guida-arrow-${step.position}"></div>
+    `
+
+    // Set width and make visible temporarily to measure actual height
+    this.state.tooltip.style.width = `${tooltipWidth}px`
+    this.state.tooltip.style.visibility = 'hidden'
+    this.state.tooltip.style.opacity = '1'
+    this.state.tooltip.classList.add('guida-visible')
+
+    // Get the actual height after content is rendered
+    const tooltipHeight = this.state.tooltip.offsetHeight
+
+    // Now calculate position with the correct height
     let left: number, top: number
 
     switch (step.position) {
@@ -387,32 +420,12 @@ export class SpotlightOnboarding {
     left = Math.max(20, Math.min(left, window.innerWidth - tooltipWidth - 20))
     top = Math.max(20, Math.min(top, window.innerHeight - tooltipHeight - 20))
 
+    // Apply final position and make visible
     this.state.tooltip.style.left = `${left}px`
     this.state.tooltip.style.top = `${top}px`
-    this.state.tooltip.style.width = `${tooltipWidth}px`
+    this.state.tooltip.style.visibility = 'visible'
 
-    // Update tooltip content
-    this.state.tooltip.innerHTML = `
-      <div class="guida-tooltip-content">
-        <div class="guida-header">
-          <h3>${step.title}</h3>
-          <div class="guida-progress">
-            <span>${this.state.currentStep + 1} of ${this.config.steps.length}</span>
-          </div>
-        </div>
-        <p>${step.description}</p>
-        <div class="guida-actions">
-          ${step.skipable ? '<button class="guida-btn guida-skip">Skip</button>' : ''}
-          ${step.action === 'observe' ? '<button class="guida-btn guida-next">Next</button>' : ''}
-          <button class="guida-btn guida-close">Close</button>
-        </div>
-      </div>
-      <div class="guida-arrow guida-arrow-${step.position}"></div>
-    `
-
-    this.state.tooltip.classList.add('guida-visible')
-
-    // event listeners to tooltip buttons
+    // Setup event listeners to tooltip buttons
     this.setupTooltipEvents()
   }
 
@@ -422,9 +435,14 @@ export class SpotlightOnboarding {
   private setupTooltipEvents(): void {
     if (!this.state.tooltip) return
 
+    const prevBtn = this.state.tooltip.querySelector('.guida-prev') as HTMLButtonElement
     const skipBtn = this.state.tooltip.querySelector('.guida-skip') as HTMLButtonElement
     const nextBtn = this.state.tooltip.querySelector('.guida-next') as HTMLButtonElement
     const closeBtn = this.state.tooltip.querySelector('.guida-close') as HTMLButtonElement
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => this.previousStep())
+    }
 
     if (skipBtn) {
       skipBtn.addEventListener('click', () => this.nextStep())
@@ -459,8 +477,17 @@ export class SpotlightOnboarding {
    * Move to the next step
    */
   public nextStep(): void {
+    const currentStep = this.config.steps[this.state.currentStep]
     this.state.currentStep++
     this.hideTooltip()
+
+    // Emit navigation event
+    this.emit('stepNavigation', {
+      direction: 'next',
+      fromStep: this.state.currentStep - 1,
+      toStep: this.state.currentStep,
+      fromStepConfig: currentStep
+    })
 
     setTimeout(() => {
       this.showStep(this.state.currentStep)
@@ -472,8 +499,17 @@ export class SpotlightOnboarding {
    */
   public previousStep(): void {
     if (this.state.currentStep > 0) {
+      const currentStep = this.config.steps[this.state.currentStep]
       this.state.currentStep--
       this.hideTooltip()
+
+      // Emit navigation event
+      this.emit('stepNavigation', {
+        direction: 'previous',
+        fromStep: this.state.currentStep + 1,
+        toStep: this.state.currentStep,
+        fromStepConfig: currentStep
+      })
 
       setTimeout(() => {
         this.showStep(this.state.currentStep)

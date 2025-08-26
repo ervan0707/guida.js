@@ -77,86 +77,129 @@ export const DEFAULT_STYLES = `
 }
 
 .guida-tooltip-content {
-  padding: 24px;
+  padding: 16px;
 }
 
 .guida-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 12px;
 }
 
 .guida-header h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #1a1a1a;
   line-height: 1.3;
+  flex: 1;
 }
 
 .guida-progress {
-  background: #f0f0f0;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 12px;
-  color: #666;
+  background: #f8f9fa;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #6c757d;
   font-weight: 500;
+  white-space: nowrap;
+  border: 1px solid #e9ecef;
 }
 
 .guida-tooltip-content p {
-  margin: 0 0 20px 0;
-  color: #4a4a4a;
-  line-height: 1.5;
-  font-size: 14px;
+  margin: 0 0 16px 0;
+  color: #495057;
+  line-height: 1.4;
+  font-size: 13px;
 }
 
 .guida-actions {
   display: flex;
-  gap: 8px;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 0;
+}
+
+.guida-navigation {
+  display: none;
+}
+
+.guida-controls {
+  display: flex;
+  gap: 6px;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .guida-btn {
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 6px 12px;
+  border-radius: 4px;
   border: none;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 70px;
+  min-width: 50px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guida-btn-secondary {
+  background: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+.guida-btn-secondary:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.guida-btn-text {
+  background: transparent;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  min-width: 45px;
+}
+
+.guida-btn-text:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+  color: #495057;
 }
 
 .guida-skip {
   background: transparent;
-  color: #666;
-  border: 1px solid #ddd !important;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
 }
 
 .guida-skip:hover {
-  background: #f5f5f5;
-  border-color: #ccc !important;
+  background: #f8f9fa;
+  border-color: #adb5bd;
 }
 
 .guida-next {
   background: #007acc;
   color: white;
+  min-width: 60px;
 }
 
 .guida-next:hover {
-  background: #005a99;
-  transform: translateY(-1px);
+  background: #0056b3;
 }
 
 .guida-close {
   background: #dc3545;
   color: white;
+  min-width: 45px;
 }
 
 .guida-close:hover {
   background: #c82333;
-  transform: translateY(-1px);
 }
 
 /* Tooltip arrows */

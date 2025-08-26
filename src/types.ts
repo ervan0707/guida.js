@@ -81,6 +81,12 @@ export interface OnboardingEvents {
   close: void
   stepChange: { stepIndex: number; step: OnboardingStep }
   beforeStepChange: { currentStepIndex: number; nextStepIndex: number }
+  stepNavigation: {
+    direction: 'next' | 'previous'
+    fromStep: number
+    toStep: number
+    fromStepConfig: OnboardingStep
+  }
 }
 
 /**
