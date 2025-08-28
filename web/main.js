@@ -1,5 +1,7 @@
-import { SpotlightOnboarding } from "../src/index.ts";
+// Import the library from the source (for development)
+import { Guida } from "../src/index.ts";
 
+// Simplified onboarding tour for the landing page
 const tourSteps = [
   {
     target: "#spotlightFeature",
@@ -61,7 +63,8 @@ const tourSteps = [
   },
 ];
 
-const onboarding = new SpotlightOnboarding({
+// Create onboarding instance
+const onboarding = new Guida({
   steps: tourSteps,
   autoStart: false,
   startDelay: 500,

@@ -27,9 +27,9 @@ npm install guida-js
 ## Quick Start
 
 ```typescript
-import { SpotlightOnboarding } from "guida-js";
+import { Guida } from "guida-js";
 
-const onboarding = new SpotlightOnboarding({
+const onboarding = new Guida({
   steps: [
     {
       target: "#welcome-button",
@@ -191,7 +191,7 @@ Customize the spotlight highlighting with border radius and padding options:
 
 ```typescript
 // Global spotlight configuration
-const onboarding = new SpotlightOnboarding({
+const onboarding = new Guida({
   steps: [...],
   spotlight: {
     borderRadius: 16, // Rounded corners for all spotlights
@@ -259,7 +259,7 @@ spotlight: { borderRadius: 24, padding: 20 }
 You can customize the appearance by adding your own CSS classes:
 
 ```typescript
-const onboarding = new SpotlightOnboarding({
+const onboarding = new Guida({
   steps: [...],
   customClasses: {
     tooltip: 'my-custom-tooltip',
@@ -283,7 +283,7 @@ const onboarding = new SpotlightOnboarding({
 ### Event Handling
 
 ```typescript
-const onboarding = new SpotlightOnboarding({
+const onboarding = new Guida({
   steps: [...],
   callbacks: {
     onStart: () => console.log('Onboarding started'),
@@ -338,19 +338,19 @@ if (user.isPremium) {
   });
 }
 
-const onboarding = new SpotlightOnboarding({ steps });
+const onboarding = new Guida({ steps });
 ```
 
 ### Multiple Onboarding Flows
 
 ```typescript
 // Different flows for different user types
-const adminOnboarding = new SpotlightOnboarding({
+const adminOnboarding = new Guida({
   steps: adminSteps,
   storageKey: "admin-guida-completed",
 });
 
-const userOnboarding = new SpotlightOnboarding({
+const userOnboarding = new Guida({
   steps: userSteps,
   storageKey: "user-guida-completed",
 });
@@ -367,7 +367,7 @@ if (user.role === "admin") {
 
 ```typescript
 // React Router example
-const onboarding = new SpotlightOnboarding({
+const onboarding = new Guida({
   steps: [...],
   callbacks: {
     onStepChange: (index, step) => {

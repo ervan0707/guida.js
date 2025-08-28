@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { SpotlightOnboarding } from '../src/onboarding'
+import { Guida } from '../src/onboarding'
 import type { OnboardingStep } from '../src/types'
 
 // Test helper to create mock DOM elements
@@ -42,31 +42,31 @@ const mockSteps: OnboardingStep[] = [
   }
 ]
 
-describe('SpotlightOnboarding', () => {
+describe('Guida', () => {
   describe('Constructor and Initialization', () => {
     it('should create an instance with default config', () => {
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: mockSteps,
         autoStart: false
       })
 
-      expect(onboarding).toBeInstanceOf(SpotlightOnboarding)
+      expect(onboarding).toBeInstanceOf(Guida)
       expect(onboarding.isActive()).toBe(false)
       expect(onboarding.isCompleted()).toBe(false)
     })
 
     it('should merge user config with defaults', () => {
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: mockSteps,
         autoStart: false,
         storageKey: 'custom-key'
       })
 
-      expect(onboarding).toBeInstanceOf(SpotlightOnboarding)
+      expect(onboarding).toBeInstanceOf(Guida)
     })
 
     it('should inject styles into document head', () => {
-      new SpotlightOnboarding({
+      new Guida({
         steps: mockSteps,
         autoStart: false
       })
@@ -77,8 +77,8 @@ describe('SpotlightOnboarding', () => {
     })
 
     it('should not inject styles multiple times', () => {
-      new SpotlightOnboarding({ steps: mockSteps, autoStart: false })
-      new SpotlightOnboarding({ steps: mockSteps, autoStart: false })
+      new Guida({ steps: mockSteps, autoStart: false })
+      new Guida({ steps: mockSteps, autoStart: false })
 
       const styleElements = document.querySelectorAll('#guida-js-styles')
       expect(styleElements.length).toBe(1)
@@ -90,7 +90,7 @@ describe('SpotlightOnboarding', () => {
       createMockElement('step1')
 
       const onStart = vi.fn()
-      new SpotlightOnboarding({
+      new Guida({
         steps: mockSteps,
         autoStart: true,
         startDelay: 0,
@@ -105,7 +105,7 @@ describe('SpotlightOnboarding', () => {
 
     it('should not auto start when autoStart is false', async () => {
       const onStart = vi.fn()
-      new SpotlightOnboarding({
+      new Guida({
         steps: mockSteps,
         autoStart: false,
         callbacks: { onStart }
@@ -121,7 +121,7 @@ describe('SpotlightOnboarding', () => {
     it('should track active state correctly', () => {
       createMockElement('step1')
 
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: mockSteps,
         autoStart: false
       })
@@ -139,7 +139,7 @@ describe('SpotlightOnboarding', () => {
       createMockElement('step1')
       createMockElement('step2')
 
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: mockSteps,
         autoStart: false,
         storageKey: 'test-completion'
@@ -163,7 +163,7 @@ describe('SpotlightOnboarding', () => {
     it('should get current step info', () => {
       createMockElement('step1')
 
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: mockSteps,
         autoStart: false
       })
@@ -185,7 +185,7 @@ describe('Navigation', () => {
     createMockElement('step2')
 
     const onStepChange = vi.fn()
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false,
       callbacks: { onStepChange }
@@ -210,7 +210,7 @@ describe('Navigation', () => {
     createMockElement('step1')
     createMockElement('step2')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -227,7 +227,7 @@ describe('Navigation', () => {
     createMockElement('step1')
     createMockElement('step2')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -242,7 +242,7 @@ describe('Navigation', () => {
     createMockElement('step1')
     createMockElement('step2')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -264,7 +264,7 @@ describe('Navigation', () => {
   it('should not go before first step', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -280,7 +280,7 @@ describe('Event System', () => {
   it('should emit start event', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -296,7 +296,7 @@ describe('Event System', () => {
     createMockElement('step1')
     createMockElement('step2')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -326,7 +326,7 @@ describe('Event System', () => {
   it('should emit complete event', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -343,7 +343,7 @@ describe('Event System', () => {
   it('should emit close event', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -358,7 +358,7 @@ describe('Event System', () => {
   })
 
   it('should remove event listeners', () => {
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -376,7 +376,7 @@ describe('Storage', () => {
   it('should save completion state to localStorage', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false,
       storageKey: 'test-key'
@@ -391,7 +391,7 @@ describe('Storage', () => {
   it('should read completion state from localStorage', () => {
     localStorage.getItem = vi.fn().mockReturnValue('true')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false,
       storageKey: 'test-key'
@@ -403,7 +403,7 @@ describe('Storage', () => {
   it('should reset completion state', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false,
       storageKey: 'test-key'
@@ -420,7 +420,7 @@ describe('Storage', () => {
 
 describe('Error Handling', () => {
   it('should handle missing target elements gracefully', () => {
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: [
         {
           target: '#nonexistent',
@@ -439,7 +439,7 @@ describe('Error Handling', () => {
   })
 
   it('should not start with empty steps', () => {
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: [],
       autoStart: false
     })
@@ -454,7 +454,7 @@ describe('Error Handling', () => {
   it('should not start when already active', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -473,7 +473,7 @@ describe('DOM Manipulation', () => {
   it('should create overlay when starting', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -487,7 +487,7 @@ describe('DOM Manipulation', () => {
   it('should create tooltip when starting', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -501,7 +501,7 @@ describe('DOM Manipulation', () => {
   it('should remove overlay when closing', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false
     })
@@ -516,7 +516,7 @@ describe('DOM Manipulation', () => {
   it('should apply custom classes', () => {
     createMockElement('step1')
 
-    const onboarding = new SpotlightOnboarding({
+    const onboarding = new Guida({
       steps: mockSteps,
       autoStart: false,
       customClasses: {

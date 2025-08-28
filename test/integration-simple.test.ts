@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { SpotlightOnboarding } from '../src/onboarding'
+import { Guida } from '../src/onboarding'
 import type { OnboardingStep } from '../src/types'
 
-describe('SpotlightOnboarding Integration Tests', () => {
+describe('Guida Integration Tests', () => {
   let container: HTMLElement
 
   beforeEach(() => {
@@ -73,7 +73,7 @@ describe('SpotlightOnboarding Integration Tests', () => {
         onClose: vi.fn()
       }
 
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: testSteps,
         autoStart: false,
         callbacks
@@ -96,7 +96,7 @@ describe('SpotlightOnboarding Integration Tests', () => {
     })
 
     it('should handle navigation through steps', async () => {
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: testSteps,
         autoStart: false
       })
@@ -126,7 +126,7 @@ describe('SpotlightOnboarding Integration Tests', () => {
         tooltip: 'custom-tooltip-class'
       }
 
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: testSteps,
         autoStart: false,
         customClasses
@@ -142,7 +142,7 @@ describe('SpotlightOnboarding Integration Tests', () => {
     })
 
     it('should clean up DOM elements when closed', () => {
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: testSteps,
         autoStart: false
       })
@@ -173,7 +173,7 @@ describe('SpotlightOnboarding Integration Tests', () => {
         }
       ]
 
-      const onboarding = new SpotlightOnboarding({
+      const onboarding = new Guida({
         steps: invalidSteps,
         autoStart: false
       })

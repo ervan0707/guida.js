@@ -13,9 +13,9 @@ type MergedOnboardingConfig = Required<Omit<OnboardingConfig, 'spotlight'>> & {
 }
 
 /**
- * Modern onboarding library with spotlight highlighting
+ * Onboarding library with spotlight highlighting
  */
-export class SpotlightOnboarding {
+export class Guida {
   private config: MergedOnboardingConfig
   private state: OnboardingState
   private eventListeners: Map<keyof OnboardingEvents, Function[]> = new Map()

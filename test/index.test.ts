@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { SpotlightOnboarding, createOnboarding, quickStart } from '../src/index'
+import { Guida, createOnboarding, quickStart } from '../src/index'
 import type { OnboardingStep } from '../src/types'
 
 const mockSteps: OnboardingStep[] = [
@@ -16,9 +16,9 @@ const mockSteps: OnboardingStep[] = [
 
 describe('Index Exports', () => {
   describe('Named Exports', () => {
-    it('should export SpotlightOnboarding class', () => {
-      expect(SpotlightOnboarding).toBeDefined()
-      expect(typeof SpotlightOnboarding).toBe('function')
+    it('should export Guida class', () => {
+      expect(Guida).toBeDefined()
+      expect(typeof Guida).toBe('function')
     })
 
     it('should export createOnboarding function', () => {
@@ -33,13 +33,13 @@ describe('Index Exports', () => {
   })
 
   describe('createOnboarding', () => {
-    it('should create a SpotlightOnboarding instance', () => {
+    it('should create a Guida instance', () => {
       const onboarding = createOnboarding({
         steps: mockSteps,
         autoStart: false
       })
 
-      expect(onboarding).toBeInstanceOf(SpotlightOnboarding)
+      expect(onboarding).toBeInstanceOf(Guida)
     })
 
     it('should pass config correctly', () => {
@@ -50,7 +50,7 @@ describe('Index Exports', () => {
       }
 
       const onboarding = createOnboarding(config)
-      expect(onboarding).toBeInstanceOf(SpotlightOnboarding)
+      expect(onboarding).toBeInstanceOf(Guida)
     })
   })
 
@@ -58,18 +58,18 @@ describe('Index Exports', () => {
     it('should create an onboarding with default settings', () => {
       const onboarding = quickStart(mockSteps)
 
-      expect(onboarding).toBeInstanceOf(SpotlightOnboarding)
+      expect(onboarding).toBeInstanceOf(Guida)
     })
 
     it('should set autoStart to true by default', () => {
       // Since we can't directly access private config, we test the behavior
       const onboarding = quickStart([])
-      expect(onboarding).toBeInstanceOf(SpotlightOnboarding)
+      expect(onboarding).toBeInstanceOf(Guida)
     })
 
     it('should set startDelay to 1000ms by default', () => {
       const onboarding = quickStart(mockSteps)
-      expect(onboarding).toBeInstanceOf(SpotlightOnboarding)
+      expect(onboarding).toBeInstanceOf(Guida)
     })
   })
 })
