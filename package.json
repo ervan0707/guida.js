@@ -1,5 +1,5 @@
 {
-  "name": "guida-js",
+  "name": "guida.js",
   "version": "0.0.0",
   "type": "module",
   "description": "A modern, lightweight onboarding library with spotlight highlighting and smooth animations",
@@ -11,16 +11,16 @@
     "README.md"
   ],
   "scripts": {
-    "dev": "npm-run-all --parallel dev:lib dev:example",
+    "dev": "npm-run-all --parallel dev:lib dev:web",
     "dev:lib": "vite build --watch",
-    "dev:example": "cd example && npm run dev",
+    "dev:web": "cd web && npm run dev",
     "build": "npm run clean && npm run typecheck && vite build --mode production",
     "build:dev": "vite build --mode development",
     "build:watch": "vite build --watch",
     "clean": "rm -rf dist",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "example": "cd example && npm run dev",
+    "web": "cd web && npm run dev",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",

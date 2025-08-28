@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <title>Guida.js - Lightweight JavaScript Library for User Onboarding Tours</title>
+  <meta name="title" content="Guida.js - Lightweight JavaScript Library for User Onboarding Tours">
+  <meta name="description"
+    content="Create beautiful user onboarding tours with Guida.js. A 6KB TypeScript library with zero dependencies for highlighting elements and guiding users through your web app.">
+  <meta name="keywords"
+    content="javascript library, user onboarding, product tours, element highlighting, typescript, web development, UI/UX, user experience, spotlight, tooltips">
+  <meta name="author" content="Guida.js">
+  <meta name="robots" content="index, follow">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://guidajs.vercel.app">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://guidajs.vercel.app">
+  <meta property="og:title" content="Guida.js - Lightweight JavaScript Library for User Onboarding Tours">
+  <meta property="og:description"
+    content="Create beautiful user onboarding tours with Guida.js. A 6KB TypeScript library with zero dependencies for highlighting elements and guiding users through your web app.">
+  <meta property="og:image" content="https://guidajs.vercel.appscreenshots/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Guida.js - User onboarding library demo">
+  <meta property="og:site_name" content="Guida.js">
+  <meta property="og:locale" content="en_US">
+
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="styles.css" as="style">
+  <link rel="preload" href="/main.js" as="script">
+
+  <!-- DNS prefetch for external domains -->
+  <link rel="dns-prefetch" href="//github.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Skip to main content for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle theme selector">
+    🎨
+  </button>
+
+  <!-- Theme Selector Overlay -->
+  <div class="theme-selector" id="themeSelector">
+    <div class="theme-options">
+      <div class="theme-option" data-theme="latte">
+        <div class="theme-preview latte"></div>
+        <span>Latte</span>
+      </div>
+      <div class="theme-option active" data-theme="frappe">
+        <span>Frappé</span>
+      </div>
+      <div class="theme-option" data-theme="macchiato">
+        <div class="theme-preview macchiato"></div>
+        <span>Macchiato</span>
+      </div>
+      <div class="theme-option" data-theme="mocha">
+        <div class="theme-preview mocha"></div>
+        <span>Mocha</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="header-container">
+      <a href="#" class="logo" aria-label="Guida.js homepage">guida.js</a>
+      <nav role="navigation" aria-label="Main navigation">
+        <ul class="nav-links">
+          <li><a href="#features" aria-describedby="features-desc">Features</a></li>
+          <li><a href="#demo" aria-describedby="demo-desc">Demo</a></li>
+          <li><a href="https://github.com/ervan0707/guida.js" target="_blank" rel="noopener noreferrer"
+              aria-describedby="github-desc">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" role="main">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-container">
+        <h1>Guida.js: JavaScript Library for User Onboarding Tours</h1>
+        <p>Create beautiful, accessible user onboarding experiences with our lightweight TypeScript library. Highlight
+          elements, show contextual tooltips, and guide users through your web application without the bloat.</p>
+        <div class="hero-actions">
+          <button id="heroStartTour" class="btn btn-primary" aria-describedby="demo-desc">Try Interactive Demo</button>
+          <a href="https://github.com/ervan0707/guida.js" id="helpButton" class="btn btn-secondary" target="_blank"
+            rel="noopener noreferrer">View Source Code</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" aria-labelledby="stats-heading">
+      <div class="stats-container">
+        <div class="stat">
+          <h3>~6KB</h3>
+          <p>Minified and gzipped bundle size</p>
+        </div>
+        <div class="stat">
+          <h3>Zero</h3>
+          <p>External dependencies required</p>
+        </div>
+        <div class="stat">
+          <h3>TypeScript</h3>
+          <p>Built with full type safety</p>
+        </div>
+        <div class="stat">
+          <h3>MIT</h3>
+          <p>Open source license</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features" aria-labelledby="features-heading">
+      <div class="container">
+        <div class="section-title">
+          <h2 id="features-heading">Core Features for Web Developers</h2>
+          <p id="features-desc">Essential capabilities for creating effective user onboarding experiences without
+            unnecessary complexity or performance overhead.</p>
+        </div>
+        <div class="features-grid" role="list">
+          <article class="feature" id="spotlightFeature" role="listitem">
+            <span class="feature-icon" aria-hidden="true">🎯</span>
+            <h3>Element Highlighting and Spotlight</h3>
+            <p>Focus user attention on specific elements with customizable backdrop overlays. Automatically follows
+              elements when they move, resize, or scroll into view.</p>
+          </article>
+          <article class="feature" id="typescriptFeature" role="listitem">
+            <span class="feature-icon" aria-hidden="true">⚡</span>
+            <h3>Full TypeScript Support</h3>
+            <p>Complete type definitions included for better developer experience. Get autocomplete suggestions, type
+              checking, and IntelliSense in your IDE.</p>
+          </article>
+          <article class="feature" id="responsiveFeature" role="listitem">
+            <span class="feature-icon" aria-hidden="true">📱</span>
+            <h3>Responsive and Mobile-Ready</h3>
+            <p>Adapts seamlessly to different screen sizes and device orientations. Optimized touch interactions for
+              mobile and tablet users.</p>
+          </article>
+          <article class="feature" id="customizableFeature" role="listitem">
+            <span class="feature-icon" aria-hidden="true">🎨</span>
+            <h3>Easy Customization</h3>
+            <p>CSS custom properties and class overrides allow complete visual customization. Match your brand colors
+              and design system effortlessly.</p>
+          </article>
+          <article class="feature" id="lightweightFeature" role="listitem">
+            <span class="feature-icon" aria-hidden="true">🪶</span>
+            <h3>Lightweight Performance</h3>
+            <p>Zero external dependencies and tree-shakeable ES modules. Minimal impact on your application's loading
+              time and runtime performance.</p>
+          </article>
+          <article class="feature" id="accessibleFeature" role="listitem">
+            <span class="feature-icon" aria-hidden="true">♿</span>
+            <h3>Accessibility Built-In</h3>
+            <p>WCAG compliant with keyboard navigation, focus management, and screen reader support. Inclusive design
+              for all users.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo" aria-labelledby="demo-heading">
+      <div class="container">
+        <div class="demo-header">
+          <h2 id="demo-heading">Interactive Demo</h2>
+          <p id="demo-desc">Experience Guida.js in action with our live demonstration showcasing real onboarding tour
+            functionality.</p>
+        </div>
+
+        <div class="demo-controls">
+          <button id="startTour" class="btn btn-primary">Start Onboarding Tour</button>
+          <button id="restartTour" class="btn btn-secondary">Restart Demo</button>
+        </div>
+
+        <div class="demo-area">
+          <form class="demo-form" id="userForm" aria-labelledby="form-heading">
+            <h3 id="form-heading">Sample Contact Form</h3>
+            <p>This form demonstrates how Guida.js highlights interactive elements during an onboarding tour.</p>
+            <div class="form-group">
+              <label for="userName">Full Name</label>
+              <input type="text" id="userName" class="form-control" placeholder="Enter your full name"
+                aria-describedby="name-help">
+              <small id="name-help" class="form-text">This field will be highlighted during the demo tour</small>
+            </div>
+            <div class="form-group">
+              <label for="userEmail">Email Address</label>
+              <input type="email" id="userEmail" class="form-control" placeholder="your.email@example.com"
+                aria-describedby="email-help">
+              <small id="email-help" class="form-text">We'll never share your email with anyone</small>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Form</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-content">
+      <nav class="footer-links" role="navigation" aria-label="Footer navigation">
+        <a href="#features">Library Features</a>
+        <a href="#demo">Live Demo</a>
+        <a href="https://github.com/ervan0707/guida.js" target="_blank" rel="noopener noreferrer">GitHub
+          Repository</a>
+        <a href="#docs">Documentation</a>
+      </nav>
+      <p>MIT Licensed © 2025 · Open source JavaScript library for user onboarding and element highlighting</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
