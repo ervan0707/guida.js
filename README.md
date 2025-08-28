@@ -21,13 +21,13 @@ A modern, lightweight onboarding library with spotlight highlighting and smooth 
 ## Installation
 
 ```bash
-npm install guida-js
+npm install guida.js
 ```
 
 ## Quick Start
 
 ```typescript
-import { Guida } from "guida-js";
+import { Guida } from "guida.js";
 
 const onboarding = new Guida({
   steps: [
@@ -78,7 +78,7 @@ onboarding.start();
 ```typescript
 interface OnboardingConfig {
   steps: OnboardingStep[];
-  storageKey?: string; // Default: 'guida-js-completed'
+  storageKey?: string; // Default: 'guida.js-completed'
   autoStart?: boolean; // Default: true
   startDelay?: number; // Default: 1000ms
   spotlight?: {
@@ -396,8 +396,8 @@ The ESM build allows for better tree-shaking and is preferred by modern developm
 
 ```bash
 # Clone the repository
-git clone https://github.com/ervan0707/guida-js.git
-cd guida-js
+git clone https://github.com/ervan0707/guida.js.git
+cd guida.js
 
 # Install dependencies
 npm install
