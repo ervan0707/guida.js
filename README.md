@@ -1,5 +1,19 @@
 # Guida.js
 
+<!-- Badges -->
+<div align="center">
+
+[![npm version](https://img.shields.io/npm/v/guida.js.svg?color=blue&logo=npm)](https://www.npmjs.com/package/guida.js)
+[![npm downloads](https://img.shields.io/npm/dm/guida.js.svg?color=green&logo=npm)](https://www.npmjs.com/package/guida.js)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/guida.js?label=gzipped&color=success)](https://bundlephobia.com/package/guida.js)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ervan0707/guida.js/release.yml?branch=main&label=build&logo=github)](https://github.com/ervan0707/guida.js/actions)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178c6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![MIT License](https://img.shields.io/npm/l/guida.js.svg?color=green)](https://github.com/ervan0707/guida.js/blob/main/LICENSE)
+[![Test Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](https://github.com/ervan0707/guida.js)
+[![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://www.npmjs.com/package/guida.js)
+
+</div>
+
 A modern, lightweight onboarding library with spotlight highlighting and smooth animations. Perfect for guiding users through your application with style.
 
 ![Guida.js Demo](./screenshots/Screenshot.png)
