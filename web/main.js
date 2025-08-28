@@ -211,6 +211,9 @@ function setupFormInteractions() {
 
 // Main initialization
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("copyright-year").textContent =
+    new Date().getFullYear();
+
   // Setup interactive elements
   setupFormInteractions();
   setupThemeSelector();
