@@ -58,10 +58,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ervan0707/guida-js"
+    "url": "https://github.com/ervan0707/guida.js"
   },
   "bugs": {
-    "url": "https://github.com/ervan0707/guida-js/issues"
+    "url": "https://github.com/ervan0707/guida.js/issues"
   },
-  "homepage": "https://github.com/ervan0707/guida-js#readme"
+  "homepage": "https://github.com/ervan0707/guida.js#readme"
 }
