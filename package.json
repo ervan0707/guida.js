@@ -1,6 +1,6 @@
 {
   "name": "guida.js",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "description": "A modern, lightweight onboarding library with spotlight highlighting and smooth animations",
   "main": "dist/index.js",
